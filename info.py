@@ -27,7 +27,21 @@ def load_info(serial: str):
 
         if response.status_code == 200:
             info = get_info_from_html(response.text)
-            return parse_info(info)
+
+            count = 0
+            resulted_info = ""
+            result = ""
+
+            infos = info.split(" ")
+            for info_item in infos:
+                if count != 0 and count % 7 == 0:
+                    result += parse_info(resulted_info) + "\n"
+                    resulted_info = ""
+
+                resulted_info += (info_item + " ")
+
+                count += 1
+            return result
         else:
             return ""
     except Exception:
